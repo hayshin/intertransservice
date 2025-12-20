@@ -3,7 +3,6 @@
 	import Advantages from '$lib/components/Advantages.svelte';
 	import DirectorQuote from '$lib/components/DirectorQuote.svelte';
 	import ProductsShowcase from '$lib/components/ProductsShowcase.svelte';
-	import LeadershipTeam from '$lib/components/LeadershipTeam.svelte';
 	import CompanyInfo from '$lib/components/CompanyInfo.svelte';
 </script>
 
@@ -16,5 +15,4 @@
 <Advantages />
 <DirectorQuote />
 <ProductsShowcase />
-<LeadershipTeam />
 <CompanyInfo />
