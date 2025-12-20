@@ -67,12 +67,10 @@
 					</button>
 					<div class="absolute left-0 mt-0 w-56 bg-[#0f2942] border border-white/10 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
 						<a href="/about" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 border-b border-white/5">{m.header_nav_about_dropdown()}</a>
-						<a href="/about/quality" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 border-b border-white/5">{m.header_nav_about_quality()}</a>
 						<a href="/about/team" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5">{m.header_nav_about_team()}</a>
 					</div>
 				</div>
 				<a href="/products" class="nav-link px-4 py-2 text-gray-200 hover:text-white transition-colors">{m.header_nav_services()}</a>
-				<a href="/projects" class="nav-link px-4 py-2 text-gray-200 hover:text-white transition-colors">{m.header_nav_projects()}</a>
 				<a href="/partners" class="nav-link px-4 py-2 text-gray-200 hover:text-white transition-colors">{m.header_nav_partners()}</a>
 				<a href="/contacts" class="nav-link px-4 py-2 text-gray-200 hover:text-white transition-colors">{m.header_nav_contacts()}</a>
 				
@@ -101,7 +99,6 @@
 			<nav class="lg:hidden border-t border-white/10 py-4 space-y-1">
 				<a href="/about" class="block py-3 px-4 text-gray-200 hover:text-white hover:bg-white/5" onclick={closeMobileMenu}>{m.header_nav_about()}</a>
 				<a href="/products" class="block py-3 px-4 text-gray-200 hover:text-white hover:bg-white/5" onclick={closeMobileMenu}>{m.header_nav_services()}</a>
-				<a href="/projects" class="block py-3 px-4 text-gray-200 hover:text-white hover:bg-white/5" onclick={closeMobileMenu}>{m.header_nav_projects()}</a>
 				<a href="/partners" class="block py-3 px-4 text-gray-200 hover:text-white hover:bg-white/5" onclick={closeMobileMenu}>{m.header_nav_partners()}</a>
 				<a href="/contacts" class="block py-3 px-4 text-gray-200 hover:text-white hover:bg-white/5" onclick={closeMobileMenu}>{m.header_nav_contacts()}</a>
 			</nav>

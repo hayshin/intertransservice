@@ -26,7 +26,6 @@
 				<h4 class="text-white font-bold mb-6 text-lg">{m.footer_section_info()}</h4>
 				<ul class="space-y-3 text-sm">
 					<li><a href="/about" class="hover:text-[#c9a227] transition-colors">{m.footer_link_about()}</a></li>
-					<li><a href="/projects" class="hover:text-[#c9a227] transition-colors">{m.footer_link_projects()}</a></li>
 					<li><a href="/partners" class="hover:text-[#c9a227] transition-colors">{m.footer_link_partners()}</a></li>
 					<li><a href="/careers" class="hover:text-[#c9a227] transition-colors">{m.footer_link_careers()}</a></li>
 					<li><a href="/contacts" class="hover:text-[#c9a227] transition-colors">{m.footer_link_contacts()}</a></li>
