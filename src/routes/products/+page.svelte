@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getAllProducts } from '$lib/utils/products';
+	import { getAllProducts, getProductCapacity, getProductMaxHeight } from '$lib/utils/products';
 	import * as m from '$lib/paraglide/messages';
 
 	const products = getAllProducts();
@@ -48,23 +48,21 @@
 						<div class="p-8">
 							<p class="text-gray-600 mb-6 leading-relaxed">{product.shortDescription}</p>
 							
-							<!-- Key Specs -->
-							<div class="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-gray-200">
-								<div>
-									<div class="text-xs text-gray-500 uppercase tracking-wide mb-1">Грузоподъёмность</div>
-									<div class="text-lg font-bold text-[#0f2942]">
-										{product.specs.find(s => s.key.includes('грузоподъёмность'))?.value || '—'}
-									</div>
-								</div>
-								<div>
-									<div class="text-xs text-gray-500 uppercase tracking-wide mb-1">Высота подъёма</div>
-									<div class="text-lg font-bold text-[#0f2942]">
-										{product.specs.find(s => s.key.includes('Высота'))?.value || '—'}
-									</div>
-								</div>
-							</div>
-							
-							<!-- Features Preview -->
+			<!-- Key Specs -->
+			<div class="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-gray-200">
+				<div>
+					<div class="text-xs text-gray-500 uppercase tracking-wide mb-1">{m.products_card_capacity_label()}</div>
+					<div class="text-lg font-bold text-[#0f2942]">
+						{getProductCapacity(product)}
+					</div>
+				</div>
+				<div>
+					<div class="text-xs text-gray-500 uppercase tracking-wide mb-1">{m.products_card_height_label()}</div>
+					<div class="text-lg font-bold text-[#0f2942]">
+						{getProductMaxHeight(product)}
+					</div>
+				</div>
+			</div>							<!-- Features Preview -->
 							<ul class="space-y-2 mb-6">
 								{#each product.features.slice(0, 3) as feature}
 									<li class="flex items-start gap-2 text-sm text-gray-700">

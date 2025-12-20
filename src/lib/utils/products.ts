@@ -143,3 +143,15 @@ export function getProductBySlug(slug: string): Product | null {
 	};
 }
 
+export function getProductCapacity(product: Product): string {
+	return product.specs.find(s => 
+		s.key === m.spec_max_capacity()
+	)?.value || '—';
+}
+
+export function getProductMaxHeight(product: Product): string {
+	return product.specs.find(s => 
+		s.key === m.spec_max_lift_height()
+	)?.value || '—';
+}
+
