@@ -20,7 +20,7 @@ const productsData: Record<string, Omit<Product, 'slug'>> = {
 	sany_30: {
 		name: m.product_sany_30_name(),
 		type: m.product_sany_30_type(),
-		image: '/products/sany_30.webp',
+		image: '/products/sany/sany_30.webp',
 		shortDescription: m.product_sany_30_short_desc(),
 		features: [
 			m.product_sany_30_feature_1(),
@@ -47,7 +47,7 @@ const productsData: Record<string, Omit<Product, 'slug'>> = {
 	sany_50: {
 		name: m.product_sany_50_name(),
 		type: m.product_sany_50_type(),
-		image: '/products/sany_50.jpg',
+		image: '/products/sany/sany_50.jpg',
 		shortDescription: m.product_sany_50_short_desc(),
 		features: [
 			m.product_sany_50_feature_1(),
@@ -74,7 +74,7 @@ const productsData: Record<string, Omit<Product, 'slug'>> = {
 	sany_80: {
 		name: m.product_sany_80_name(),
 		type: m.product_sany_80_type(),
-		image: '/products/sany_80.jpg',
+		image: '/products/sany/sany_80.jpg',
 		shortDescription: m.product_sany_80_short_desc(),
 		features: [
 			m.product_sany_80_feature_1(),
@@ -101,7 +101,7 @@ const productsData: Record<string, Omit<Product, 'slug'>> = {
 	sany_100: {
 		name: m.product_sany_100_name(),
 		type: m.product_sany_100_type(),
-		image: '/products/sany_100.webp',
+		image: '/products/sany/sany_100.webp',
 		shortDescription: m.product_sany_100_short_desc(),
 		features: [
 			m.product_sany_100_feature_1(),
@@ -124,6 +124,114 @@ const productsData: Record<string, Omit<Product, 'slug'>> = {
 			{ key: m.spec_wheel_formula(), value: '8×4×4' }
 		],
 		fullDescription: m.product_sany_100_full_description()
+	},
+	xcmg_30: {
+		name: m.product_xcmg_30_name(),
+		type: m.product_xcmg_30_type(),
+		image: '/products/xcmg/xcmg_30.jpg',
+		shortDescription: m.product_xcmg_30_short_desc(),
+		features: [
+			m.product_xcmg_30_feature_1(),
+			m.product_xcmg_30_feature_2(),
+			m.product_xcmg_30_feature_3(),
+			m.product_xcmg_30_feature_4(),
+			m.product_xcmg_30_feature_5()
+		],
+		specs: [
+			{ key: m.spec_counterweight(), value: '—' },
+			{ key: m.spec_max_capacity(), value: '30T' },
+			{ key: m.spec_max_boom_length(), value: '47.6m' },
+			{ key: m.spec_max_jib_length(), value: '—' },
+			{ key: m.spec_max_lift_height(), value: '47.6m' },
+			{ key: m.spec_max_lift_moment(), value: '—' },
+			{ key: m.spec_available_regions(), value: 'Global' },
+			{ key: m.spec_engine_model(), value: 'SC8DK280Q3' },
+			{ key: m.spec_max_gradeability(), value: '—' },
+			{ key: m.spec_max_travel_speed(), value: '75km/h' },
+			{ key: m.spec_wheel_formula(), value: '6×4' }
+		],
+		fullDescription: m.product_xcmg_30_full_description()
+	},
+	xcmg_50: {
+		name: m.product_xcmg_50_name(),
+		type: m.product_xcmg_50_type(),
+		image: '/products/xcmg/xcmg_50.png',
+		shortDescription: m.product_xcmg_50_short_desc(),
+		features: [
+			m.product_xcmg_50_feature_1(),
+			m.product_xcmg_50_feature_2(),
+			m.product_xcmg_50_feature_3(),
+			m.product_xcmg_50_feature_4(),
+			m.product_xcmg_50_feature_5()
+		],
+		specs: [
+			{ key: m.spec_counterweight(), value: '—' },
+			{ key: m.spec_max_capacity(), value: '50T' },
+			{ key: m.spec_max_boom_length(), value: '57.7m' },
+			{ key: m.spec_max_jib_length(), value: '—' },
+			{ key: m.spec_max_lift_height(), value: '57.7m' },
+			{ key: m.spec_max_lift_moment(), value: '—' },
+			{ key: m.spec_available_regions(), value: 'Global' },
+			{ key: m.spec_engine_model(), value: 'WD615.334' },
+			{ key: m.spec_max_gradeability(), value: '—' },
+			{ key: m.spec_max_travel_speed(), value: '80km/h' },
+			{ key: m.spec_wheel_formula(), value: '8×4' }
+		],
+		fullDescription: m.product_xcmg_50_full_description()
+	},
+	xcmg_80: {
+		name: m.product_xcmg_80_name(),
+		type: m.product_xcmg_80_type(),
+		image: '/products/xcmg/xcmg_80.jpg',
+		shortDescription: m.product_xcmg_80_short_desc(),
+		features: [
+			m.product_xcmg_80_feature_1(),
+			m.product_xcmg_80_feature_2(),
+			m.product_xcmg_80_feature_3(),
+			m.product_xcmg_80_feature_4(),
+			m.product_xcmg_80_feature_5()
+		],
+		specs: [
+			{ key: m.spec_counterweight(), value: '—' },
+			{ key: m.spec_max_capacity(), value: '80T' },
+			{ key: m.spec_max_boom_length(), value: '48m' },
+			{ key: m.spec_max_jib_length(), value: '—' },
+			{ key: m.spec_max_lift_height(), value: '74.5m' },
+			{ key: m.spec_max_lift_moment(), value: '—' },
+			{ key: m.spec_available_regions(), value: 'Global' },
+			{ key: m.spec_engine_model(), value: 'D10.38-50' },
+			{ key: m.spec_max_gradeability(), value: '—' },
+			{ key: m.spec_max_travel_speed(), value: '80km/h' },
+			{ key: m.spec_wheel_formula(), value: '—' }
+		],
+		fullDescription: m.product_xcmg_80_full_description()
+	},
+	xcmg_100: {
+		name: m.product_xcmg_100_name(),
+		type: m.product_xcmg_100_type(),
+		image: '/products/xcmg/xcmg_100.jpg',
+		shortDescription: m.product_xcmg_100_short_desc(),
+		features: [
+			m.product_xcmg_100_feature_1(),
+			m.product_xcmg_100_feature_2(),
+			m.product_xcmg_100_feature_3(),
+			m.product_xcmg_100_feature_4(),
+			m.product_xcmg_100_feature_5()
+		],
+		specs: [
+			{ key: m.spec_counterweight(), value: '—' },
+			{ key: m.spec_max_capacity(), value: '100T' },
+			{ key: m.spec_max_boom_length(), value: '70.4m' },
+			{ key: m.spec_max_jib_length(), value: '—' },
+			{ key: m.spec_max_lift_height(), value: '70.4m' },
+			{ key: m.spec_max_lift_moment(), value: '—' },
+			{ key: m.spec_available_regions(), value: 'Global' },
+			{ key: m.spec_engine_model(), value: 'XCMG ISME420 30' },
+			{ key: m.spec_max_gradeability(), value: '—' },
+			{ key: m.spec_max_travel_speed(), value: '75km/h' },
+			{ key: m.spec_wheel_formula(), value: '8×4×4' }
+		],
+		fullDescription: m.product_xcmg_100_full_description()
 	}
 };
 
@@ -153,5 +261,16 @@ export function getProductMaxHeight(product: Product): string {
 	return product.specs.find(s => 
 		s.key === m.spec_max_lift_height()
 	)?.value || '—';
+}
+
+export function getProductsByCapacityPairs(): { capacity: string, sany: Product | null, xcmg: Product | null }[] {
+	const allProducts = getAllProducts();
+	const capacities = ['30T', '50T', '80T', '100T'];
+	
+	return capacities.map(capacity => ({
+		capacity,
+		sany: allProducts.find(p => p.slug.startsWith('sany_') && getProductCapacity(p) === capacity) || null,
+		xcmg: allProducts.find(p => p.slug.startsWith('xcmg_') && getProductCapacity(p) === capacity) || null
+	}));
 }
 
