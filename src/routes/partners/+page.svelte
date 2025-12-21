@@ -1,5 +1,6 @@
 <script lang="ts">
 	import * as m from '$lib/paraglide/messages';
+	import ClientsShowcase from '$lib/components/ClientsShowcase.svelte';
 </script>
 
 <svelte:head>
@@ -31,27 +32,10 @@
 	</div>
 </section>
 
-<!-- Partners Grid -->
-<section class="py-12 bg-gray-100">
-	<div class="container mx-auto px-4">
-		<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-			{#each Array(8) as _, i}
-				<div class="card-industrial bg-white p-8 aspect-square flex items-center justify-center">
-					<div class="text-center">
-						<div class="w-16 h-16 bg-gray-200 mx-auto mb-4 flex items-center justify-center">
-							<svg class="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
-								<path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/>
-							</svg>
-						</div>
-						<p class="text-sm text-gray-500 font-medium">Partner {i + 1}</p>
-					</div>
-				</div>
-			{/each}
-		</div>
-	</div>
-</section>
+<!-- Clients Showcase Component -->
+<ClientsShowcase />
 
-<!-- Partner Categories -->
+<!-- Client Categories -->
 <section class="py-20 bg-white">
 	<div class="container mx-auto px-4">
 		<div class="mb-16 text-center">
@@ -63,7 +47,7 @@
 			<div class="text-center">
 				<div class="w-20 h-20 bg-[#0f2942] mx-auto mb-6 flex items-center justify-center">
 					<svg class="w-10 h-10 text-[#c9a227]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
 					</svg>
 				</div>
 				<h3 class="text-xl font-bold text-[#0f2942] mb-3">{m.partners_category1_title()}</h3>
@@ -73,7 +57,7 @@
 			<div class="text-center">
 				<div class="w-20 h-20 bg-[#0f2942] mx-auto mb-6 flex items-center justify-center">
 					<svg class="w-10 h-10 text-[#c9a227]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
 					</svg>
 				</div>
 				<h3 class="text-xl font-bold text-[#0f2942] mb-3">{m.partners_category2_title()}</h3>
