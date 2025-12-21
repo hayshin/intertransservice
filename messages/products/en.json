@@ -14,6 +14,7 @@
 	"products_specs": "Specifications",
 	"products_back_to_list": "← Back to Products",
 	"products_request_quote": "Request Quote",
+	"products_whatsapp_message": "Hello! I would like to get a quote for renting the {productName} ({productType}). Could you please provide pricing information?",
 	"products_card_capacity_label": "Capacity",
 	"products_card_height_label": "Lift Height",
 

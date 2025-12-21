@@ -14,6 +14,7 @@
 	"products_specs": "Характеристики",
 	"products_back_to_list": "← К списку продукции",
 	"products_request_quote": "Запросить цену",
+	"products_whatsapp_message": "Здравствуйте! Хотел бы узнать стоимость аренды {productName} ({productType}). Можете предоставить информацию о ценах?",
 	"products_card_capacity_label": "Грузоподъёмность",
 	"products_card_height_label": "Высота подъёма",
 

@@ -4,6 +4,15 @@
 
 	let { data }: { data: PageData } = $props();
 	const product = $derived.by(() => data.product);
+
+	function getWhatsAppURL() {
+		const message = m.products_whatsapp_message({
+			productName: product.name,
+			productType: product.type
+		});
+		const phoneNumber = "+77019134104"; // Replace with your WhatsApp business number
+		return `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+	}
 </script>
 
 <svelte:head>
@@ -53,19 +62,16 @@
 					/>
 				</div>
 				
-				<!-- CTA Buttons -->
-				<div class="mt-6 flex flex-col sm:flex-row gap-4">
+				<!-- CTA Button -->
+				<div class="mt-6">
 					<a 
-						href="/contacts" 
-						class="flex-1 px-6 py-4 bg-[#c9a227] text-[#0f2942] font-bold uppercase tracking-wider text-sm hover:bg-[#dbb732] transition-colors text-center"
+						href={getWhatsAppURL()}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="w-full px-6 py-4 bg-[#c9a227] text-[#0f2942] font-bold uppercase tracking-wider text-sm hover:bg-[#dbb732] transition-colors text-center block"
 					>
 						{m.products_request_quote()}
 					</a>
-					<button 
-						class="px-6 py-4 border-2 border-[#0f2942] text-[#0f2942] font-bold uppercase tracking-wider text-sm hover:bg-[#0f2942] hover:text-white transition-colors"
-					>
-						{m.products_download_brochure()}
-					</button>
 				</div>
 			</div>
 			

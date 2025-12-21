@@ -14,6 +14,7 @@
 	"products_specs": "Сипаттамалар",
 	"products_back_to_list": "← Өнімдер тізіміне",
 	"products_request_quote": "Баға сұрау",
+	"products_whatsapp_message": "Сәлеметсіз бе! {productName} ({productType}) жалға алу бағасын білгім келеді. Баға туралы ақпарат бере аласыз ба?",
 	"products_card_capacity_label": "Көтеру қуаты",
 	"products_card_height_label": "Көтеру биіктігі",
 
