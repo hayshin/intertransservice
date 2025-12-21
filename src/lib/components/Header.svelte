@@ -58,18 +58,7 @@
 
 			<!-- Desktop Navigation -->
 			<nav class="hidden lg:flex items-center gap-1">
-				<div class="relative group">
-					<button class="nav-link px-4 py-2 text-gray-200 hover:text-white transition-colors flex items-center gap-1">
-						{m.header_nav_about()}
-						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-						</svg>
-					</button>
-					<div class="absolute left-0 mt-0 w-56 bg-[#0f2942] border border-white/10 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-						<a href="/about" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 border-b border-white/5">{m.header_nav_about_dropdown()}</a>
-						<a href="/about/team" class="block px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5">{m.header_nav_about_team()}</a>
-					</div>
-				</div>
+				<a href="/about" class="nav-link px-4 py-2 text-gray-200 hover:text-white transition-colors">{m.header_nav_about()}</a>
 				<a href="/products" class="nav-link px-4 py-2 text-gray-200 hover:text-white transition-colors">{m.header_nav_services()}</a>
 				<a href="/partners" class="nav-link px-4 py-2 text-gray-200 hover:text-white transition-colors">{m.header_nav_partners()}</a>
 				<a href="/contacts" class="nav-link px-4 py-2 text-gray-200 hover:text-white transition-colors">{m.header_nav_contacts()}</a>
