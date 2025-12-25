@@ -32,7 +32,7 @@
 			<!-- Director info -->
 			<div class="mt-16 flex flex-col items-center">
 				<!-- Director photo -->
-				<div class="w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-[#c9a227] shadow-xl">
+				<div class="w-40 h-40 mb-4 rounded-full overflow-hidden border-4 border-[#c9a227] shadow-xl">
 					<enhanced:img 
 						src={directorPhoto} 
 						alt="{m.home_director_name()}" 
