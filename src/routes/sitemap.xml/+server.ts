@@ -1,7 +1,10 @@
 import type { RequestHandler } from './$types';
 import { getAllProducts } from '$lib/utils/products';
 
+export const prerender = true;
+
 const SITE_URL = 'https://intertransservice.kz';
+
 
 // A small, pragmatic sitemap focused on money-pages.
 function url(path: string): string {
