@@ -305,7 +305,7 @@ export function getProductMaxHeight(product: Product): string {
 
 export function getProductsByCapacityPairs(): { capacity: string, sany: Product | null, xcmg: Product | null }[] {
 	const allProducts = getAllProducts();
-	const capacities = ['30T', '50T', '80T', '100T', '150T', '200T'];
+	const capacities = ['30T', '50T', '80T', '100T'];
 	
 	return capacities.map(capacity => ({
 		capacity,
