@@ -5,6 +5,8 @@ import sany30 from '$lib/assets/products/sany/sany_30.webp?enhanced';
 import sany50 from '$lib/assets/products/sany/sany_50.jpg?enhanced';
 import sany80 from '$lib/assets/products/sany/sany_80.jpg?enhanced';
 import sany100 from '$lib/assets/products/sany/sany_100.webp?enhanced';
+import sany150 from '$lib/assets/products/sany/sany_150.webp?enhanced';
+import sany200 from '$lib/assets/products/sany/sany_200.webp?enhanced';
 
 import xcmg30 from '$lib/assets/products/xcmg/xcmg_30.jpg?enhanced';
 import xcmg50 from '$lib/assets/products/xcmg/xcmg_50.png?enhanced';
@@ -132,6 +134,58 @@ const productsData: Record<string, Omit<Product, 'slug'>> = {
 		],
 		fullDescription: m.product_sany_100_full_description()
 	},
+		sany_150: {
+		name: m.product_sany_150_name(),
+		type: m.product_sany_150_type(),
+		image: sany150,
+		shortDescription: m.product_sany_150_short_desc(),
+		features: [
+			m.product_sany_150_feature_1(),
+			m.product_sany_150_feature_2(),
+			m.product_sany_150_feature_3(),
+			m.product_sany_150_feature_4(),
+			m.product_sany_150_feature_5()
+		],
+		specs: [
+			{ key: m.spec_counterweight(), value: '38T' },
+			{ key: m.spec_max_capacity(), value: '150T' },
+			{ key: m.spec_max_boom_length(), value: '70m' },
+			{ key: m.spec_max_jib_length(), value: '35m' },
+			{ key: m.spec_max_lift_height(), value: '105m' },
+			{ key: m.spec_max_lift_moment(), value: '4200kN·m' },
+			{ key: m.spec_engine_model(), value: 'DF Cummins ISLe420 30(Euro Ⅲ)' },
+			{ key: m.spec_max_gradeability(), value: '45%' },
+			{ key: m.spec_max_travel_speed(), value: '75km/h' },
+			{ key: m.spec_wheel_formula(), value: '10×4×4' }
+		],
+		fullDescription: m.product_sany_150_full_description()
+	},
+	    sany_200: {
+		name: m.product_sany_200_name(),
+		type: m.product_sany_200_type(),
+		image: sany200,
+		shortDescription: m.product_sany_200_short_desc(),
+		features: [
+			m.product_sany_200_feature_1(),
+			m.product_sany_200_feature_2(),
+			m.product_sany_200_feature_3(),
+			m.product_sany_200_feature_4(),
+			m.product_sany_200_feature_5()
+		],
+		specs: [
+			{ key: m.spec_counterweight(), value: '45T' },
+			{ key: m.spec_max_capacity(), value: '200T' },
+			{ key: m.spec_max_boom_length(), value: '80m' },
+			{ key: m.spec_max_jib_length(), value: '45m' },
+			{ key: m.spec_max_lift_height(), value: '120m' },
+			{ key: m.spec_max_lift_moment(), value: '5000kN·m' },
+			{ key: m.spec_engine_model(), value: 'DF Cummins ISLe430 31(Euro Ⅲ)' },
+			{ key: m.spec_max_gradeability(), value: '45%' },
+			{ key: m.spec_max_travel_speed(), value: '75km/h' },
+			{ key: m.spec_wheel_formula(), value: '10×8×4' }
+		],
+		fullDescription: m.product_sany_200_full_description()
+	},
 	xcmg_30: {
 		name: m.product_xcmg_30_name(),
 		type: m.product_xcmg_30_type(),
@@ -251,7 +305,7 @@ export function getProductMaxHeight(product: Product): string {
 
 export function getProductsByCapacityPairs(): { capacity: string, sany: Product | null, xcmg: Product | null }[] {
 	const allProducts = getAllProducts();
-	const capacities = ['30T', '50T', '80T', '100T'];
+	const capacities = ['30T', '50T', '80T', '100T', '150T', '200T'];
 	
 	return capacities.map(capacity => ({
 		capacity,
