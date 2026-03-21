@@ -5,7 +5,7 @@ import sany30 from '$lib/assets/products/sany/sany_30.webp?enhanced';
 import sany50 from '$lib/assets/products/sany/sany_50.jpg?enhanced';
 import sany80 from '$lib/assets/products/sany/sany_80.jpg?enhanced';
 import sany100 from '$lib/assets/products/sany/sany_100.webp?enhanced';
-import sany150 from '$lib/assets/products/sany/sany_150.webp?enhanced';
+import sany150 from '$lib/assets/products/sany/sany_150.png?enhanced';
 import sany200 from '$lib/assets/products/sany/sany_200.webp?enhanced';
 
 import xcmg30 from '$lib/assets/products/xcmg/xcmg_30.jpg?enhanced';
