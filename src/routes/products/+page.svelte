@@ -154,26 +154,7 @@
     </div>
   </a>
 {/if}
-									
-									<!-- Content -->
-									<div class="p-8">
-										<p class="text-gray-600 mb-6 leading-relaxed">{pair.xcmg.shortDescription}</p>
-										
-										<!-- Key Specs -->
-										<div class="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-gray-200">
-											<div>
-												<div class="text-xs text-gray-500 uppercase tracking-wide mb-1">{m.products_card_capacity_label()}</div>
-												<div class="text-lg font-bold text-[#0f2942]">
-													{getProductCapacity(pair.xcmg)}
-												</div>
-											</div>
-											<div>
-												<div class="text-xs text-gray-500 uppercase tracking-wide mb-1">{m.products_card_height_label()}</div>
-												<div class="text-lg font-bold text-[#0f2942]">
-													{getProductMaxHeight(pair.xcmg)}
-												</div>
-											</div>
-										</div>
+					
 										
 										<!-- Features Preview -->
 										<ul class="space-y-2 mb-6">
