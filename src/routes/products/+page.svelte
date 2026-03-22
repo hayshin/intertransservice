@@ -49,9 +49,11 @@
                       <h2 class="text-2xl font-bold text-white">{pair.sany.name}</h2>
                     </div>
                   </div>
+
                   <!-- Content -->
                   <div class="p-8">
                     <p class="text-gray-600 mb-6 leading-relaxed">{pair.sany.shortDescription}</p>
+
                     <!-- Key Specs -->
                     <div class="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-gray-200">
                       <div>
@@ -71,6 +73,7 @@
                         </div>
                       </div>
                     </div>
+
                     <!-- Features Preview -->
                     <ul class="space-y-2 mb-6">
                       {#each pair.sany.features?.slice(0, 3) ?? [] as feature}
@@ -90,6 +93,7 @@
                         </li>
                       {/each}
                     </ul>
+
                     <!-- CTA -->
                     <div
                       class="flex items-center gap-2 text-[#c9a227] font-semibold group-hover:gap-4 transition-all"
@@ -135,9 +139,11 @@
                       <h2 class="text-2xl font-bold text-white">{pair.xcmg.name}</h2>
                     </div>
                   </div>
+
                   <!-- Content -->
                   <div class="p-8">
                     <p class="text-gray-600 mb-6 leading-relaxed">{pair.xcmg.shortDescription}</p>
+
                     <!-- Key Specs -->
                     <div class="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-gray-200">
                       <div>
@@ -157,6 +163,7 @@
                         </div>
                       </div>
                     </div>
+
                     <!-- Features Preview -->
                     <ul class="space-y-2 mb-6">
                       {#each pair.xcmg.features?.slice(0, 3) ?? [] as feature}
@@ -176,6 +183,7 @@
                         </li>
                       {/each}
                     </ul>
+
                     <!-- CTA -->
                     <div
                       class="flex items-center gap-2 text-[#c9a227] font-semibold group-hover:gap-4 transition-all"
