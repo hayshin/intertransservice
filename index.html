@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аренда автокранов премиум-класса | Мощные решения для сложных проектов</title>
+    <meta name="description" content="Услуги аренды автомобильных и гусеничных кранов высокой грузоподъемности. Надежная спецтехника от мировых брендов для строительных и индустриальных объектов.">
+    <style>
+        /* Премиальная индустриальная палитра (в стиле Maxim Crane: глубокий графит, сигнальный желтый, чистый белый) */
+        :root {
+            --bg-dark: #11141a;
+            --bg-light: #f8f9fa;
+            --card-bg: #1c2029;
+            --accent: #ffcc00; /* Индустриальный желтый */
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-main); color: var(--text-main); background-color: var(--bg-dark); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* HEADER (Лаконичный и строгий) */
+        header { background: rgba(17, 20, 26, 0.95); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #2e3545; backdrop-filter: blur(5px); }
+        .header-wrap { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
+        .logo { font-size: 24px; font-weight: 800; tracking-spacing: 1px; color: #fff; text-transform: uppercase; }
+        .logo span { color: var(--accent); }
+        nav a { color: var(--text-main); text-decoration: none; margin-left: 30px; font-weight: 500; font-size: 14px; text-transform: uppercase; transition: 0.3s; }
+        nav a:hover, nav a.active { color: var(--accent); }
+        .cta-phone { font-weight: 700; color: var(--accent); text-decoration: none; font-size: 18px; }
+
+        /* HERO SECTION (Главный экран для контекстной рекламы) */
+        .hero { padding: 140px 0 100px 0; background: linear-gradient(135deg, rgba(17,20,26,0.95) 40%, rgba(17,20,26,0.6)), url('hero-crane-bg.jpg') center/cover no-repeat; min-height: 80vh; display: flex; align-items: center; }
+        .hero-content { max-width: 650px; }
+        .hero-tag { display: inline-block; padding: 6px 12px; background: rgba(255, 204, 0, 0.1); border: 1px solid var(--accent); color: var(--accent); font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; }
+        .hero h1 { font-size: 48px; font-weight: 900; line-height: 1.1; margin-bottom: 20px; text-transform: uppercase; }
+        .hero p { font-size: 18px; color: var(--text-muted); margin-bottom: 40px; }
+        .btn { display: inline-block; padding: 16px 36px; background: var(--accent); color: #000; font-weight: 700; text-decoration: none; text-transform: uppercase; font-size: 14px; border-radius: 2px; transition: 0.3s; border: none; cursor: pointer; }
+        .btn:hover { background: #fff; }
+
+        /* SECTION COMMON */
+        section { padding: 100px 0; }
+        .section-title { font-size: 32px; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; position: relative; }
+        .section-title::after { content: ''; display: block; width: 60px; height: 4px; background: var(--accent); margin-top: 15px; }
+        .section-desc { color: var(--text-muted); max-width: 600px; margin-bottom: 60px; font-size: 16px; }
+
+        /* FLOT / CATALOG (Структура каталога как у InterTransService / Maxim Crane) */
+        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .crane-card { background: var(--card-bg); border: 1px solid #2e3545; padding: 30px; border-radius: 4px; transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+        .crane-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .crane-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 1px solid #2e3545; padding-bottom: 15px; }
+        .crane-title h3 { font-size: 22px; font-weight: 700; text-transform: uppercase; }
+        .crane-brand { font-size: 12px; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .crane-capacity { background: #2e3545; padding: 4px 10px; border-radius: 2px; font-size: 14px; font-weight: 700; color: #fff; }
+        
+        .crane-specs { margin-bottom: 30px; }
+        .spec-line { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #2e3545; font-size: 14px; }
+        .spec-label { color: var(--text-muted); }
+        .spec-value { font-weight: 600; color: #fff; }
+        
+        .crane-actions { display: flex; gap: 15px; }
+        .btn-outline { flex: 1; text-align: center; padding: 12px; border: 1px solid #475569; color: #fff; text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
+        .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
+        .btn-card-cta { flex: 1; text-align: center; padding: 12px; background: var(--accent); color: #000; text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; transition: 0.3s; }
+        .btn-card-cta:hover { background: #fff; }
+
+        /* INDUSTRIES (Решения по индустриям — мощная фишка Maxim Crane для SEO) */
+        .bg-light-section { background-color: var(--bg-light); color: #11141a; }
+        .bg-light-section .section-title { color: #11141a; }
+        .bg-light-section .section-desc { color: #64748b; }
+        .ind-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .ind-card { background: #fff; padding: 30px; border-left: 4px solid var(--bg-dark); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .ind-card h4 { font-size: 18px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+        .ind-card p { color: #64748b; font-size: 14px; }
+
+        /* FOOTER */
+        footer { background: #0b0d11; padding: 60px 0; border-top: 1px solid #2e3545; color: var(--text-muted); font-size: 14px; }
+        .footer-wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
+        .footer-col { flex: 1; min-width: 250px; }
+        .footer-col h5 { color: #fff; font-size: 16px; text-transform: uppercase; margin-bottom: 20px; font-weight: 700; }
+        .footer-col p { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-wrap">
+            <div class="logo">ITS<span>.CRANES</span></div>
+            <nav>
+                <a href="#catalog" class="active">Наш Флот</a>
+                <a href="#industries">Отрасли</a>
+                <a href="#seo-content">О компании</a>
+                <a href="#contacts">Контакты</a>
+            </nav>
+            <a href="tel:+77000000000" class="cta-phone">+7 (700) 000-00-00</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-tag">Профессиональные крановые решения в Казахстане</div>
+                <h1>Аренда тяжелых автокранов повышенной проходимости</h1>
+                <p>Решаем сложнейшие задачи по подъему и перемещению грузов. Подбор техники под ваш объект, оперативная подача и инжиниринговое сопровождение.</p>
+                <a href="#catalog" class="btn">Подобрать кран в каталоге</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="catalog">
+        <div class="container">
+            <h2 class="section-title">Наш флот крановой техники</h2>
+            <p class="section-desc">Выберите класс техники под ваши задачи. Каждая единица полностью сертифицирована, прошла ТО и управляется опытным оператором.</p>
+            
+            <div class="catalog-grid">
+                
+                <div class="crane-card">
+                    <div>
+                        <div class="crane-header">
+                            <div class="crane-title">
+                                <span class="crane-brand">Liebherr / XCMG / Zoomlion</span>
+                                <h3>Вседорожные автокраны</h3>
+                            </div>
+                            <span class="crane-capacity">25т - 500т</span>
+                        </div>
+                        <div class="crane-specs">
+                            <div class="spec-line">
+                                <span class="spec-label">Основная стрела</span>
+                                <span class="spec-value">до 80 м</span>
+                            </div>
+                            <div class="spec-line">
+                                <span class="spec-label">С гуськом</span>
+                                <span class="spec-value">до 110 м</span>
+                            </div>
+                            <div class="spec-line">
+                                <span class="spec-label">Колесная формула</span>
+                                <span class="spec-value">Полноприводные (All-Terrain)</span>
+                            </div>
+                            <div class="spec-line">
+                                <span class="spec-label">Назначение</span>
+                                <span class="spec-value">Монтаж заводов, мостов, НПЗ</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="crane-actions">
+                        <a href="#" class="btn-outline">Спецификация (PDF)</a>
+                        <a href="#" class="btn-card-cta">Заказать расчет</a>
+                    </div>
+                </div>
+
+                <div class="crane-card">
+                    <div>
+                        <div class="crane-header">
+                            <div class="crane-title">
+                                <span class="crane-brand">Liebherr LR / Demag / XGC</span>
+                                <h3>Гусеничные краны</h3>
+                            </div>
+                            <span class="crane-capacity">50т - 1250т</span>
+                        </div>
+                        <div class="crane-specs">
+                            <div class="spec-line">
+                                <span class="spec-label">Тип стрелы</span>
+                                <span class="spec-value">Решетчатая (Crawler Crane)</span>
+                            </div>
+                            <div class="spec-line">
+                                <span class="spec-label">Макс. вылет</span>
+                                <span class="spec-value">до 150 м</span>
+                            </div>
+                            <div class="spec-line">
+                                <span class="spec-label">Преимущество</span>
+                                <span class="spec-value">Перемещение с грузом на крюке</span>
+                            </div>
+                            <div class="spec-line">
+                                <span class="spec-label">Сфера</span>
+                                <span class="spec-value">Ветроэнергетика, Нефтегаз, Тяжпром</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="crane-actions">
+                        <a href="#" class="btn-outline">Чертежи и схемы</a>
+                        <a href="#" class="btn-card-cta">Запросить цену</a>
+                    </div>
+                </div>
+
+                <div class="crane-card">
+                    <div>
+                        <div class="crane-header">
+                            <div class="crane-title">
+                                <span class="crane-brand">Terex-Demag / Kato / Locatelli</span>
+                                <h3>Короткобазные краны</h3>
+                            </div>
+                            <span class="crane-capacity">30т - 100т</span>
+                        </div>
+                        <div class="crane-specs">
+                            <div class="spec-line">
+                                <span class="spec-label">Конструкция</span>
+                                <span class="spec-value">Двухосные, компактная база</span>
+                            </div>
+                            <div class="spec-line">
+                                <span class="spec-label">Управление</span>
+                                <span class="spec-value">Крабовый ход, малый радиус</span>
+                            </div>
+                            <div class="spec-line">
+                                <span class="spec-label">Проходимость</span>
+                                <span class="spec-value">Экстремальное бездорожье (Rough-Terrain)</span>
+                            </div>
+                            <div class="spec-line">
+                                <span class="spec-label">Сфера</span>
+                                <span class="spec-value">Подготовка площадок, тесные городские условия</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="crane-actions">
+                        <a href="#" class="btn-outline">Характеристики</a>
+                        <a href="#" class="btn-card-cta">Заказать кран</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="industries" class="bg-light-section">
+        <div class="container">
+            <h2 class="section-title">Промышленные решения</h2>
+            <p class="section-desc">Мы не просто сдаем железо в аренду. Мы проектируем и подбираем крановые системы под конкретные отраслевые стандарты.</p>
+            
+            <div class="ind-grid">
+                <div class="ind-card">
+                    <h4>Нефтегазовый сектор</h4>
+                    <p>Обслуживание НПЗ, монтаж реакторов, буровых вышек и технологических модулей.</p>
+                </div>
+                <div class="ind-card">
+                    <h4>Строительство инфраструктуры</h4>
+                    <p>Монтаж мостовых пролетов, развязок, путепроводов и масштабных логистических хабов.</p>
+                </div>
+                <div class="ind-card">
+                    <h4>Энергетика и ВИЭ</h4>
+                    <p>Установка ветрогенераторов (ВЭС), монтаж тяжелых трансформаторов и опор ЛЭП.</p>
+                </div>
+                <div class="ind-card">
+                    <h4>Гражданское строительство</h4>
+                    <p>Монтаж башенных кранов, подача тяжелых металлоконструкций на строящиеся высотные объекты.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="seo-content">
+        <div class="container">
+            <div style="max-width: 800px;">
+                <h2 class="section-title">Услуги аренды автокранов в Казахстане</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">
+                    Опираясь на международный опыт инженерного планирования (3D-моделирование подъемов в стиле лучших мировых практик) и обширный автопарк, аналогичный ведущим каталогам вроде InterTransService, наша компания предлагает комплексные услуги по аренде грузоподъемной техники. 
+                </p>
+                <p style="color: var(--text-muted);">
+                    Все наши автокраны (включая вездеходные мобильные краны и гусеничные комплексы с решетчатой стрелой) проходят регулярное техническое освидетельствование. Мы обеспечиваем быструю логистику до строительной площадки заказчика, предоставляем высококвалифицированный персонал операторов и берем на себя полное техническое сопровождение проектов любой сложности.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacts">
+        <div class="container footer-wrap">
+            <div class="footer-col">
+                <h5>ITS.CRANES</h5>
+                <p>Профессиональный инжиниринг и аренда тяжелой подъемной техники для бизнеса.</p>
+            </div>
+            <div class="footer-col">
+                <h5>Контакты</h5>
+                <p>Телефон: +7 (700) 000-00-00</p>
+                <p>Email: info@your-cranes-site.kz</p>
+                <p>Офис: Республика Казахстан</p>
+            </div>
+            <div class="footer-col">
+                <h5>Техника в наличии</h5>
+                <p>• Автокраны Liebherr LTM</p>
+                <p>• Гусеничные краны XCMG / Zoomlion</p>
+                <p>• Короткобазные краны RT</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

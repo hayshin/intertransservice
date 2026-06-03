@@ -9,10 +9,10 @@
 	import Footer from '$lib/components/Footer.svelte';
 
 	let { children } = $props();
-
-	const pathname = $derived(page.url.pathname);
-	const normalizedPath = $derived(pathname.endsWith('/') ? pathname : `${pathname}/`);
-	const canonical = $derived(`${PUBLIC_SITE_URL}${normalizedPath}`);
+    const pathname = $derived(page.url.pathname);
+    const normalizedPath = $derived(pathname.endsWith('/') ? pathname : `${pathname}/`);
+    const site = $derived(PUBLIC_SITE_URL.trim());
+    const canonical = $derived(`${site}${normalizedPath}`);
 </script>
 
 <svelte:head>
