@@ -31,9 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // ===== TELEGRAM BOT CONFIGURATION =====
-// IMPORTANT: Replace these with your actual values
-define('TELEGRAM_BOT_TOKEN', 'YOUR_BOT_TOKEN_HERE');
-define('TELEGRAM_CHAT_ID', 'YOUR_CHAT_ID_HERE');
+// Configured for intertransservice.kz
+define('TELEGRAM_BOT_TOKEN', '8950374054:AAEKrn8UryvP_INWC2a9cxlHHo2ZSeDL_Fo');
+define('TELEGRAM_CHAT_ID', '8562344329');
 define('TELEGRAM_API_URL', 'https://api.telegram.org/bot' . TELEGRAM_BOT_TOKEN . '/sendMessage');
 
 // ===== INPUT DATA RETRIEVAL & VALIDATION =====
