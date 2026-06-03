@@ -5,6 +5,7 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import CraneQuiz from '$lib/components/CraneQuiz.svelte';
 
 	let { children } = $props();
 </script>
@@ -20,6 +21,9 @@
 	
 	<Footer />
 </div>
+
+<!-- Quiz Component - Fixed button visible on all pages -->
+<CraneQuiz />
 
 <!-- Language selector (hidden but accessible for SEO) -->
 <div style="display:none">
