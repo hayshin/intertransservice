@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../styles/quiz.css';
+	import '$lib/styles/quiz.css';
 	import { onMount } from 'svelte';
 
 	// ===== STATE MANAGEMENT =====
