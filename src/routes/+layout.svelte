@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { locales, localizeHref } from '$lib/paraglide/runtime';
 	import { PUBLIC_SITE_URL } from '$env/static/public';
@@ -31,7 +32,9 @@
 	<Footer />
 </div>
 
-<CraneQuiz />
+{#if browser}
+	<CraneQuiz />
+{/if}
 
 <div style="display:none">
 	{#each locales as locale}
