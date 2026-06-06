@@ -129,11 +129,10 @@ else
     fail "CraneQuiz.svelte not found"
 fi
 
-if [ -f "src/styles/quiz.css" ]; then
-    SIZE=$(du -h src/styles/quiz.css | cut -f1)
-    pass "quiz.css exists (${SIZE})"
+if grep -q "<style>" src/lib/components/CraneQuiz.svelte; then
+    pass "CraneQuiz.svelte contains scoped styles"
 else
-    fail "quiz.css not found"
+    fail "CraneQuiz.svelte is missing <style> block"
 fi
 
 if [ -f "static/send_quiz.php" ]; then
