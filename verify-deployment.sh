@@ -166,9 +166,20 @@ if git rev-parse --git-dir > /dev/null 2>&1; then
     
     UNPUSHED=$(git rev-list --count @{u}..HEAD 2>/dev/null || echo "0")
     if [ "$UNPUSHED" -eq 0 ]; then
-        pass "All commits pushed to remote"
+        pass "All commits pushed to origin"
     else
-        warn "Git has $UNPUSHED unpushed commits"
+        warn "Git has $UNPUSHED unpushed commits to origin"
+    fi
+
+    if git remote get-url upstream >/dev/null 2>&1; then
+        AHEAD_OF_UPSTREAM=$(git rev-list --count upstream/master..HEAD 2>/dev/null || echo "0")
+        if [ "$AHEAD_OF_UPSTREAM" -eq 0 ]; then
+            pass "Production remote (upstream/master) is in sync"
+        else
+            fail "Production is $AHEAD_OF_UPSTREAM commit(s) behind. Run: git push upstream master"
+        fi
+    else
+        warn "No upstream remote configured - cannot verify production sync"
     fi
 else
     warn "Not a Git repository - skipping Git checks"

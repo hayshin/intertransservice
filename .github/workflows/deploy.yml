@@ -1,3 +1,7 @@
+# Production deploy for https://intertransservice.kz
+# Triggered on push to master in hayshin/intertransservice.
+# Local fork (origin) pushes do not update production — use: git push upstream master
+
 name: Deploy SvelteKit to GitHub Pages
 
 on:
