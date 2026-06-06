@@ -17,7 +17,8 @@
       "./messages/clients/{locale}.json",
       "./messages/careers/{locale}.json",
       "./messages/projects/{locale}.json",
-      "./messages/common/{locale}.json"
+      "./messages/common/{locale}.json",
+      "./messages/quiz/{locale}.json"
     ]
   },
   "baseLocale": "ru",

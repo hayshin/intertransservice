@@ -6,7 +6,10 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter({
+			// /api/quiz is a server-only POST route (not included in static output).
+			strict: false
+		})
 	}
 };
 

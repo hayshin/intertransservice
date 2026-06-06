@@ -49,18 +49,16 @@ try {
 	// Extract and sanitize form fields
 	$tonnage = sanitizeInput($data['tonnage'] ?? '');
 	$craneBrand = sanitizeInput($data['craneBrand'] ?? '');
-	$region = sanitizeInput($data['region'] ?? '');
-	$rentalPeriod = sanitizeInput($data['rentalPeriod'] ?? '');
 	$phone = sanitizeInput($data['phone'] ?? '');
 	$notes = sanitizeInput($data['notes'] ?? '');
 
 	// Validate required fields
-	if (empty($tonnage) || empty($craneBrand) || empty($region) || empty($rentalPeriod) || empty($phone)) {
+	if (empty($tonnage) || empty($craneBrand) || empty($phone)) {
 		throw new Exception('Missing required fields');
 	}
 
 	// ===== BUILD TELEGRAM MESSAGE =====
-	$message = formatTelegramMessage($tonnage, $craneBrand, $region, $rentalPeriod, $phone, $notes);
+	$message = formatTelegramMessage($tonnage, $craneBrand, $phone, $notes);
 
 	// ===== SEND TO TELEGRAM =====
 	$response = sendToTelegram($message);
@@ -105,22 +103,18 @@ function sanitizeInput($input) {
  * Format the message for Telegram
  * @return string HTML-formatted message
  */
-function formatTelegramMessage($tonnage, $craneBrand, $region, $rentalPeriod, $phone, $notes) {
+function formatTelegramMessage($tonnage, $craneBrand, $phone, $notes) {
 	$message = "<b>🚜 Новая заявка на аренду крана (Квиз)</b>\n\n";
 	
 	$message .= "<b>Параметры техники:</b>\n";
 	$message .= "📊 Тоннаж: <code>{$tonnage}</code>\n";
 	$message .= "🏭 Бренд: <code>{$craneBrand}</code>\n\n";
 	
-	$message .= "<b>Условия аренды:</b>\n";
-	$message .= "📍 Регион: <code>{$region}</code>\n";
-	$message .= "⏱️ Срок аренды: <code>{$rentalPeriod}</code>\n\n";
-	
 	$message .= "<b>Контактные данные:</b>\n";
 	$message .= "📱 Телефон: <code>{$phone}</code>\n";
 	
 	if (!empty($notes)) {
-		$message .= "\n<b>Дополнительно:</b>\n";
+		$message .= "\n<b>Пожелания:</b>\n";
 		$message .= "{$notes}\n";
 	}
 	

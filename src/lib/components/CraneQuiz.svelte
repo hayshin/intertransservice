@@ -1,92 +1,118 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import * as m from '$lib/paraglide/messages';
+	import { getProductsByCapacityPairs } from '$lib/utils/products';
 
-	// ===== STATE MANAGEMENT =====
+	const totalSteps = 4;
+
+	const tonnageOptions = getProductsByCapacityPairs()
+		.filter(function (pair) {
+			return pair.sany !== null || pair.xcmg !== null;
+		})
+		.map(function (pair) {
+			const tons = pair.capacity.replace('T', '');
+			return {
+				value: `${tons} т`,
+				label: m.quiz_tonnage_option({ tons })
+			};
+		});
+
+	const brandOptions = [
+		{ value: 'Sany', label: m.quiz_brand_sany() },
+		{ value: 'XCMG', label: m.quiz_brand_xcmg() },
+		{ value: 'Не важно', label: m.quiz_brand_any() }
+	];
+
 	let isModalOpen = false;
 	let currentStep = 1;
-	const totalSteps = 3;
 	let isSubmitting = false;
 	let showSuccessMessage = false;
 
-	// Form data
 	let formData = {
 		tonnage: '',
 		craneBrand: '',
-		region: '',
-		rentalPeriod: '',
-		phone: '',
-		notes: ''
+		notes: '',
+		phone: ''
 	};
 
-	// Error messages
 	let errors: Record<string, string> = {};
 
-	// ===== MODAL FUNCTIONS =====
 	function openQuiz() {
 		isModalOpen = true;
 	}
 
-	function closeQuiz() {
-		isModalOpen = false;
-		// Reset after modal closes
-		setTimeout(() => {
-			currentStep = 1;
-			formData = {
-				tonnage: '',
-				craneBrand: '',
-				region: '',
-				rentalPeriod: '',
-				phone: '',
-				notes: ''
-			};
-			errors = {};
-			showSuccessMessage = false;
-		}, 300);
+	function resetForm() {
+		currentStep = 1;
+		formData = {
+			tonnage: '',
+			craneBrand: '',
+			notes: '',
+			phone: ''
+		};
+		errors = {};
+		showSuccessMessage = false;
 	}
 
-	// Close modal when clicking on backdrop
+	function closeQuiz() {
+		isModalOpen = false;
+		setTimeout(resetForm, 300);
+	}
+
 	function handleBackdropClick(event: MouseEvent) {
 		if (event.target === event.currentTarget) {
 			closeQuiz();
 		}
 	}
 
-	// ===== STEP NAVIGATION =====
-	function goToStep(step: number) {
-		if (step === 2) {
-			// Validate step 1 before moving to step 2
-			if (!formData.tonnage || !formData.craneBrand) {
-				errors = {
-					...errors,
-					tonnage: !formData.tonnage ? 'Выберите тоннаж' : '',
-					craneBrand: !formData.craneBrand ? 'Выберите бренд крана' : ''
-				};
-				return;
-			}
-			errors = {};
+	function validateStep(step: number): boolean {
+		if (step === 1 && !formData.tonnage) {
+			errors = { tonnage: m.quiz_error_tonnage() };
+			return false;
 		}
 
-		if (step === 3) {
-			// Validate step 2 before moving to step 3
-			if (!formData.region || !formData.rentalPeriod) {
-				errors = {
-					...errors,
-					region: !formData.region ? 'Укажите регион' : '',
-					rentalPeriod: !formData.rentalPeriod ? 'Укажите срок аренды' : ''
-				};
-				return;
-			}
-			errors = {};
+		if (step === 2 && !formData.craneBrand) {
+			errors = { craneBrand: m.quiz_error_brand() };
+			return false;
+		}
+
+		if (step === 4 && !formData.phone.trim()) {
+			errors = { phone: m.quiz_error_phone() };
+			return false;
+		}
+
+		errors = {};
+		return true;
+	}
+
+	function goToStep(step: number) {
+		if (step > currentStep && !validateStep(currentStep)) {
+			return;
 		}
 
 		currentStep = step;
 	}
 
-	// ===== FORM SUBMISSION =====
+	function nextStep() {
+		if (!validateStep(currentStep)) {
+			return;
+		}
+
+		if (currentStep < totalSteps) {
+			currentStep += 1;
+		}
+	}
+
+	function selectTonnage(value: string) {
+		formData.tonnage = value;
+		errors = { ...errors, tonnage: '' };
+	}
+
+	function selectBrand(value: string) {
+		formData.craneBrand = value;
+		errors = { ...errors, craneBrand: '' };
+	}
+
 	async function submitForm() {
-		// Validate step 3
-		if (!formData.phone) {
-			errors = { phone: 'Укажите номер телефона' };
+		if (!validateStep(4)) {
 			return;
 		}
 
@@ -94,7 +120,7 @@
 		errors = {};
 
 		try {
-			const response = await fetch('/send_quiz.php', {
+			const response = await fetch('/api/quiz', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -102,189 +128,140 @@
 				body: JSON.stringify(formData)
 			});
 
-			if (response.ok) {
+			const result = (await response.json()) as { success?: boolean };
+
+			if (response.ok && result.success) {
 				showSuccessMessage = true;
-				// Close modal after 3 seconds
-				setTimeout(() => {
-					closeQuiz();
-				}, 3000);
+				setTimeout(closeQuiz, 3000);
 			} else {
-				errors.submit = 'Ошибка при отправке. Попробуйте позже.';
+				errors.submit = m.quiz_error_submit();
 			}
 		} catch (error) {
 			console.error('Error:', error);
-			errors.submit = 'Ошибка соединения. Проверьте интернет.';
+			errors.submit = m.quiz_error_connection();
 		} finally {
 			isSubmitting = false;
 		}
 	}
 
-	// ===== UTILITY FUNCTIONS =====
-	function getProgressPercentage(): number {
-		return (currentStep / totalSteps) * 100;
+	function getStepTitle(): string {
+		if (currentStep === 1) return m.quiz_step1_title();
+		if (currentStep === 2) return m.quiz_step2_title();
+		if (currentStep === 3) return m.quiz_step3_title();
+		return m.quiz_step4_title();
 	}
 
-	function formatPhoneNumber(value: string): string {
-		// Simple phone formatting: remove non-digits and format
-		const digits = value.replace(/\D/g, '');
-		if (digits.length === 0) return '';
-		if (digits.length <= 3) return digits;
-		if (digits.length <= 6) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
-		return `${digits.slice(0, 3)}-${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+	function getStepHint(): string {
+		if (currentStep === 1) return m.quiz_step1_hint();
+		if (currentStep === 2) return m.quiz_step2_hint();
+		if (currentStep === 3) return m.quiz_step3_hint();
+		return m.quiz_step4_hint();
 	}
-
-	onMount(() => {
-		// Component is mounted
-	});
 </script>
 
-<!-- ===== FIXED BUTTON ===== -->
-<button class="quiz-button" on:click={openQuiz} title="Рассчитать стоимость аренды">
-	<span class="quiz-button-icon">📊</span>
-	<span class="quiz-button-text">Расчет</span>
+<button class="quiz-fab" onclick={openQuiz} title={m.quiz_fab_title()}>
+	{m.quiz_fab_label()}
 </button>
 
-<!-- ===== MODAL BACKDROP ===== -->
 {#if isModalOpen}
-	<div class="quiz-modal-backdrop" on:click={handleBackdropClick} role="presentation">
-		<!-- ===== MODAL CONTAINER ===== -->
+	<div class="quiz-modal-backdrop" onclick={handleBackdropClick} role="presentation">
 		<div class="quiz-modal" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
-			<!-- ===== CLOSE BUTTON ===== -->
-			<button class="quiz-close-btn" on:click={closeQuiz} aria-label="Закрыть форму">
+			<button class="quiz-close-btn" onclick={closeQuiz} aria-label={m.quiz_close_aria()}>
 				✕
 			</button>
 
-			<!-- ===== PROGRESS BAR ===== -->
-			<div class="quiz-progress-container">
-				<div class="quiz-progress-bar" style="width: {getProgressPercentage()}%"></div>
+			<div class="quiz-header">
+				<h2 id="quiz-title" class="quiz-title">{m.quiz_modal_title()}</h2>
+				<div class="quiz-steps" aria-hidden="true">
+					{#each Array.from({ length: totalSteps }, (_, i) => i + 1) as step}
+						<div
+							class="quiz-step-dot"
+							class:quiz-step-dot--done={currentStep > step}
+							class:quiz-step-dot--active={currentStep === step}
+						></div>
+					{/each}
+				</div>
+				<p class="quiz-subtitle">
+					{m.quiz_step_of({ current: String(currentStep), total: String(totalSteps) })}
+				</p>
 			</div>
 
-			<!-- ===== MODAL CONTENT ===== -->
 			<div class="quiz-content">
-				<h2 id="quiz-title" class="quiz-title">Рассчитать стоимость аренды</h2>
-				<p class="quiz-subtitle">Шаг {currentStep} из {totalSteps}</p>
-
 				{#if showSuccessMessage}
-					<!-- ===== SUCCESS MESSAGE ===== -->
 					<div class="quiz-success-message">
 						<div class="quiz-success-icon">✓</div>
-						<h3>Спасибо за вашу заявку!</h3>
-						<p>Менеджер свяжется с Вами в WhatsApp в ближайшее время.</p>
+						<h3>{m.quiz_success_title()}</h3>
+						<p>{m.quiz_success_text()}</p>
 					</div>
 				{:else}
-					<!-- ===== STEP 1: EQUIPMENT PARAMETERS ===== -->
+					<div class="quiz-step-header">
+						<h3 class="quiz-step-title">{getStepTitle()}</h3>
+						<p class="quiz-step-hint">{getStepHint()}</p>
+					</div>
+
 					{#if currentStep === 1}
 						<div class="quiz-step">
-							<div class="quiz-form-group">
-								<label for="tonnage">Необходимый тоннаж</label>
-								<select
-									id="tonnage"
-									bind:value={formData.tonnage}
-									class="quiz-input {errors.tonnage ? 'error' : ''}"
-								>
-									<option value="">-- Выберите вариант --</option>
-									<option value="25 тонн">25 тонн</option>
-									<option value="50 тонн">50 тонн</option>
-									<option value="100 тонн">100 тонн</option>
-									<option value="200 тонн">200 тонн</option>
-									<option value="Нужна помощь в подборе">Нужна помощь в подборе</option>
-								</select>
-								{#if errors.tonnage}
-									<span class="quiz-error">{errors.tonnage}</span>
-								{/if}
+							<div class="quiz-options" role="listbox" aria-label={m.quiz_step1_title()}>
+								{#each tonnageOptions as option}
+									<button
+										type="button"
+										class="quiz-option"
+										class:quiz-option--selected={formData.tonnage === option.value}
+										onclick={() => selectTonnage(option.value)}
+									>
+										{option.label}
+									</button>
+								{/each}
 							</div>
-
-							<div class="quiz-form-group">
-								<label for="craneBrand">Бренд крана</label>
-								<select
-									id="craneBrand"
-									bind:value={formData.craneBrand}
-									class="quiz-input {errors.craneBrand ? 'error' : ''}"
-								>
-									<option value="">-- Выберите вариант --</option>
-									<option value="Любой / По рекомендации">Любой / По рекомендации</option>
-									<option value="Liebherr">Liebherr</option>
-									<option value="XCMG">XCMG</option>
-									<option value="Zoomlion">Zoomlion</option>
-								</select>
-								{#if errors.craneBrand}
-									<span class="quiz-error">{errors.craneBrand}</span>
-								{/if}
-							</div>
-
-							<div class="quiz-navigation">
-								<button
-									class="quiz-btn quiz-btn-next"
-									on:click={() => goToStep(2)}
-									disabled={isSubmitting}
-								>
-									Далее →
-								</button>
-							</div>
+							{#if errors.tonnage}
+								<span class="quiz-error">{errors.tonnage}</span>
+							{/if}
 						</div>
 					{/if}
 
-					<!-- ===== STEP 2: RENTAL CONDITIONS ===== -->
 					{#if currentStep === 2}
 						<div class="quiz-step">
-							<div class="quiz-form-group">
-								<label for="region">Регион работы в Казахстане</label>
-								<input
-									id="region"
-									type="text"
-									bind:value={formData.region}
-									placeholder="Например: Атырау, Актау"
-									class="quiz-input {errors.region ? 'error' : ''}"
-								/>
-								{#if errors.region}
-									<span class="quiz-error">{errors.region}</span>
-								{/if}
+							<div class="quiz-options" role="listbox" aria-label={m.quiz_step2_title()}>
+								{#each brandOptions as option}
+									<button
+										type="button"
+										class="quiz-option"
+										class:quiz-option--selected={formData.craneBrand === option.value}
+										onclick={() => selectBrand(option.value)}
+									>
+										{option.label}
+									</button>
+								{/each}
 							</div>
-
-							<div class="quiz-form-group">
-								<label for="rentalPeriod">Срок аренды (смен / дней)</label>
-								<input
-									id="rentalPeriod"
-									type="number"
-									bind:value={formData.rentalPeriod}
-									placeholder="Например: 3"
-									min="1"
-									class="quiz-input {errors.rentalPeriod ? 'error' : ''}"
-								/>
-								{#if errors.rentalPeriod}
-									<span class="quiz-error">{errors.rentalPeriod}</span>
-								{/if}
-							</div>
-
-							<div class="quiz-navigation">
-								<button
-									class="quiz-btn quiz-btn-back"
-									on:click={() => goToStep(1)}
-									disabled={isSubmitting}
-								>
-									← Назад
-								</button>
-								<button
-									class="quiz-btn quiz-btn-next"
-									on:click={() => goToStep(3)}
-									disabled={isSubmitting}
-								>
-									Далее →
-								</button>
-							</div>
+							{#if errors.craneBrand}
+								<span class="quiz-error">{errors.craneBrand}</span>
+							{/if}
 						</div>
 					{/if}
 
-					<!-- ===== STEP 3: CONTACTS & CUSTOMIZATION ===== -->
 					{#if currentStep === 3}
 						<div class="quiz-step">
 							<div class="quiz-form-group">
-								<label for="phone">Номер телефона</label>
+								<textarea
+									id="notes"
+									bind:value={formData.notes}
+									placeholder={m.quiz_step3_placeholder()}
+									class="quiz-input"
+									rows="4"
+								></textarea>
+							</div>
+						</div>
+					{/if}
+
+					{#if currentStep === 4}
+						<div class="quiz-step">
+							<div class="quiz-form-group">
+								<label for="phone">{m.quiz_phone_label()}</label>
 								<input
 									id="phone"
 									type="tel"
 									bind:value={formData.phone}
-									placeholder="+7 (XXX) XXX-XX-XX"
+									placeholder={m.quiz_phone_placeholder()}
 									class="quiz-input {errors.phone ? 'error' : ''}"
 								/>
 								{#if errors.phone}
@@ -292,39 +269,44 @@
 								{/if}
 							</div>
 
-							<div class="quiz-form-group">
-								<label for="notes">Заметка по желанию (доп. требования)</label>
-								<textarea
-									id="notes"
-									bind:value={formData.notes}
-									placeholder="Укажите особенности груза, площадки или требования к пропускам..."
-									class="quiz-input"
-									rows="4"
-								></textarea>
-							</div>
-
 							{#if errors.submit}
 								<div class="quiz-error-message">{errors.submit}</div>
 							{/if}
-
-							<div class="quiz-navigation">
-								<button
-									class="quiz-btn quiz-btn-back"
-									on:click={() => goToStep(2)}
-									disabled={isSubmitting}
-								>
-									← Назад
-								</button>
-								<button
-									class="quiz-btn quiz-btn-submit"
-									on:click={submitForm}
-									disabled={isSubmitting}
-								>
-									{isSubmitting ? 'Отправка...' : 'Получить расчет стоимости'}
-								</button>
-							</div>
 						</div>
 					{/if}
+
+					<div class="quiz-navigation">
+						{#if currentStep > 1}
+							<button
+								type="button"
+								class="quiz-btn quiz-btn-back"
+								onclick={() => goToStep(currentStep - 1)}
+								disabled={isSubmitting}
+							>
+								{m.quiz_btn_back()}
+							</button>
+						{/if}
+
+						{#if currentStep < totalSteps}
+							<button
+								type="button"
+								class="quiz-btn quiz-btn-primary"
+								onclick={nextStep}
+								disabled={isSubmitting}
+							>
+								{m.quiz_btn_next()}
+							</button>
+						{:else}
+							<button
+								type="button"
+								class="quiz-btn quiz-btn-primary"
+								onclick={submitForm}
+								disabled={isSubmitting}
+							>
+								{isSubmitting ? m.quiz_btn_submitting() : m.quiz_btn_submit()}
+							</button>
+						{/if}
+					</div>
 				{/if}
 			</div>
 		</div>
@@ -332,68 +314,53 @@
 {/if}
 
 <style>
-	.quiz-button {
+	.quiz-fab {
 		position: fixed;
-		bottom: 25px;
-		right: 25px;
+		bottom: 24px;
+		right: 24px;
 		z-index: 9999;
-		width: 120px;
-		height: 120px;
-		border-radius: 50%;
-		background: linear-gradient(135deg, #ffa500, #ff8c00);
-		color: white;
+		padding: 14px 22px;
 		border: none;
-		cursor: pointer;
-		box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
+		border-radius: 999px;
+		background: #1a365d;
+		color: #ffffff;
+		font-size: 14px;
 		font-weight: 600;
-		font-size: 12px;
-		transition: all 0.3s ease;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-			sans-serif;
-	}
-
-	.quiz-button:hover {
-		transform: translateY(-8px);
-		box-shadow: 0 8px 25px rgba(255, 140, 0, 0.5);
-		background: linear-gradient(135deg, #ffb333, #ff9933);
-	}
-
-	.quiz-button:active {
-		transform: translateY(-4px);
-	}
-
-	.quiz-button-icon {
-		font-size: 32px;
-		margin-bottom: 4px;
-		line-height: 1;
-	}
-
-	.quiz-button-text {
-		font-size: 11px;
+		line-height: 1.3;
+		cursor: pointer;
+		box-shadow: 0 8px 24px rgba(26, 54, 93, 0.35);
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease,
+			background 0.2s ease;
+		font-family: inherit;
+		max-width: calc(100vw - 48px);
 		text-align: center;
-		letter-spacing: 0.5px;
+	}
+
+	.quiz-fab:hover {
+		background: #234876;
+		transform: translateY(-2px);
+		box-shadow: 0 12px 28px rgba(26, 54, 93, 0.45);
+	}
+
+	.quiz-fab:active {
+		transform: translateY(0);
 	}
 
 	.quiz-modal-backdrop {
 		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background-color: rgba(0, 0, 0, 0.5);
+		inset: 0;
+		background-color: rgba(15, 41, 66, 0.55);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		z-index: 10000;
 		padding: 20px;
-		animation: fadeIn 0.3s ease;
+		animation: quiz-fade-in 0.25s ease;
 	}
 
-	@keyframes fadeIn {
+	@keyframes quiz-fade-in {
 		from {
 			opacity: 0;
 		}
@@ -404,19 +371,19 @@
 
 	.quiz-modal {
 		position: relative;
-		background: white;
-		border-radius: 12px;
+		background: #ffffff;
+		border-radius: 16px;
 		width: 100%;
-		max-width: 500px;
-		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+		max-width: 480px;
+		box-shadow: 0 20px 50px rgba(15, 41, 66, 0.2);
 		overflow: hidden;
-		animation: slideUp 0.3s ease;
+		animation: quiz-slide-up 0.3s ease;
 	}
 
-	@keyframes slideUp {
+	@keyframes quiz-slide-up {
 		from {
 			opacity: 0;
-			transform: translateY(30px);
+			transform: translateY(20px);
 		}
 		to {
 			opacity: 1;
@@ -430,59 +397,127 @@
 		right: 16px;
 		width: 32px;
 		height: 32px;
-		border: none;
-		background: #f0f0f0;
-		color: #333;
+		border: 1px solid #d6e4f5;
+		background: #ffffff;
+		color: #1a365d;
 		cursor: pointer;
 		border-radius: 50%;
-		font-size: 18px;
+		font-size: 16px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		transition: all 0.2s ease;
-		z-index: 10001;
+		z-index: 1;
 	}
 
 	.quiz-close-btn:hover {
-		background: #e0e0e0;
-		transform: rotate(90deg);
+		background: #eef4fb;
+		border-color: #1a365d;
 	}
 
-	.quiz-progress-container {
-		height: 4px;
-		background-color: #e0e0e0;
-		overflow: hidden;
-	}
-
-	.quiz-progress-bar {
-		height: 100%;
-		background: linear-gradient(90deg, #ffa500, #ff8c00);
-		transition: width 0.4s ease;
-	}
-
-	.quiz-content {
-		padding: 40px 30px 30px;
+	.quiz-header {
+		padding: 28px 28px 0;
+		background: linear-gradient(180deg, #eef4fb 0%, #ffffff 100%);
 	}
 
 	.quiz-title {
-		font-size: 24px;
+		font-size: 20px;
 		font-weight: 700;
-		margin: 0 0 8px;
-		color: #333;
+		margin: 0 0 16px;
+		color: #0f2942;
+		padding-right: 36px;
+	}
+
+	.quiz-steps {
+		display: flex;
+		gap: 8px;
+		margin-bottom: 10px;
+	}
+
+	.quiz-step-dot {
+		flex: 1;
+		height: 4px;
+		border-radius: 999px;
+		background: #d6e4f5;
+		transition: background 0.3s ease;
+	}
+
+	.quiz-step-dot--active,
+	.quiz-step-dot--done {
+		background: #1a365d;
 	}
 
 	.quiz-subtitle {
+		font-size: 13px;
+		color: #5a7a9a;
+		margin: 0 0 20px;
+	}
+
+	.quiz-content {
+		padding: 0 28px 28px;
+	}
+
+	.quiz-step-header {
+		margin-bottom: 20px;
+	}
+
+	.quiz-step-title {
+		font-size: 18px;
+		font-weight: 700;
+		color: #0f2942;
+		margin: 0 0 6px;
+	}
+
+	.quiz-step-hint {
 		font-size: 14px;
-		color: #999;
-		margin: 0 0 24px;
+		color: #5a7a9a;
+		margin: 0;
+		line-height: 1.4;
 	}
 
 	.quiz-step {
-		animation: fadeIn 0.3s ease;
+		animation: quiz-fade-in 0.25s ease;
+	}
+
+	.quiz-options {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 10px;
+	}
+
+	.quiz-option {
+		padding: 14px 12px;
+		border: 2px solid #d6e4f5;
+		border-radius: 10px;
+		background: #ffffff;
+		color: #0f2942;
+		font-size: 15px;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		font-family: inherit;
+		text-align: center;
+		line-height: 1.3;
+	}
+
+	.quiz-option:hover {
+		border-color: #1a365d;
+		background: #eef4fb;
+	}
+
+	.quiz-option--selected {
+		border-color: #1a365d;
+		background: #1a365d;
+		color: #ffffff;
+		box-shadow: 0 4px 12px rgba(26, 54, 93, 0.25);
+	}
+
+	.quiz-option--selected:hover {
+		background: #234876;
+		border-color: #234876;
 	}
 
 	.quiz-form-group {
-		margin-bottom: 24px;
 		display: flex;
 		flex-direction: column;
 	}
@@ -490,258 +525,186 @@
 	.quiz-form-group label {
 		font-size: 14px;
 		font-weight: 600;
-		color: #333;
+		color: #0f2942;
 		margin-bottom: 8px;
-		display: block;
 	}
 
 	.quiz-input {
-		padding: 12px 14px;
-		border: 2px solid #e0e0e0;
-		border-radius: 6px;
-		font-size: 14px;
+		padding: 14px 16px;
+		border: 2px solid #d6e4f5;
+		border-radius: 10px;
+		font-size: 15px;
 		font-family: inherit;
 		transition: all 0.2s ease;
-		color: #333;
-		background-color: white;
+		color: #0f2942;
+		background-color: #ffffff;
+		width: 100%;
+		box-sizing: border-box;
 	}
 
 	.quiz-input:focus {
 		outline: none;
-		border-color: #ffa500;
-		box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.1);
+		border-color: #1a365d;
+		box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.12);
 	}
 
 	.quiz-input::placeholder {
-		color: #aaa;
-	}
-
-	.quiz-input:disabled {
-		background-color: #f5f5f5;
-		cursor: not-allowed;
-		opacity: 0.6;
+		color: #8aa4be;
 	}
 
 	.quiz-input:global(.error) {
-		border-color: #e74c3c;
-		background-color: #fadbd8;
-	}
-
-	select.quiz-input {
-		cursor: pointer;
-		background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-		background-repeat: no-repeat;
-		background-position: right 10px center;
-		background-size: 20px;
-		padding-right: 36px;
-		appearance: none;
+		border-color: #c53030;
+		background-color: #fff5f5;
 	}
 
 	textarea.quiz-input {
 		resize: vertical;
-		min-height: 100px;
-		font-family: inherit;
+		min-height: 110px;
 		line-height: 1.5;
 	}
 
 	.quiz-error {
 		display: block;
-		color: #e74c3c;
-		font-size: 12px;
-		margin-top: 6px;
+		color: #c53030;
+		font-size: 13px;
+		margin-top: 10px;
 		font-weight: 500;
 	}
 
 	.quiz-error-message {
-		padding: 12px;
-		background-color: #fadbd8;
-		border: 1px solid #e74c3c;
-		color: #c0392b;
-		border-radius: 6px;
+		padding: 12px 14px;
+		background-color: #fff5f5;
+		border: 1px solid #feb2b2;
+		color: #c53030;
+		border-radius: 10px;
 		font-size: 14px;
-		margin-bottom: 20px;
+		margin-top: 12px;
 		text-align: center;
 	}
 
 	.quiz-navigation {
 		display: flex;
-		gap: 12px;
-		margin-top: 28px;
+		gap: 10px;
+		margin-top: 24px;
 	}
 
 	.quiz-btn {
 		flex: 1;
-		padding: 12px 16px;
-		border: none;
-		border-radius: 6px;
-		font-size: 14px;
+		padding: 14px 18px;
+		border-radius: 10px;
+		font-size: 15px;
 		font-weight: 600;
 		cursor: pointer;
 		transition: all 0.2s ease;
 		font-family: inherit;
-		white-space: nowrap;
 	}
 
 	.quiz-btn:disabled {
-		opacity: 0.5;
+		opacity: 0.55;
 		cursor: not-allowed;
 	}
 
-	.quiz-btn-next,
-	.quiz-btn-submit {
-		background: linear-gradient(135deg, #ffa500, #ff8c00);
-		color: white;
+	.quiz-btn-primary {
+		border: none;
+		background: #1a365d;
+		color: #ffffff;
 	}
 
-	.quiz-btn-next:hover:not(:disabled),
-	.quiz-btn-submit:hover:not(:disabled) {
-		background: linear-gradient(135deg, #ffb333, #ff9933);
-		box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
-		transform: translateY(-2px);
+	.quiz-btn-primary:hover:not(:disabled) {
+		background: #234876;
+		box-shadow: 0 4px 14px rgba(26, 54, 93, 0.3);
+		transform: translateY(-1px);
 	}
 
 	.quiz-btn-back {
-		background-color: #f0f0f0;
-		color: #333;
+		border: 2px solid #d6e4f5;
+		background: #ffffff;
+		color: #1a365d;
 	}
 
 	.quiz-btn-back:hover:not(:disabled) {
-		background-color: #e0e0e0;
-		transform: translateY(-2px);
+		border-color: #1a365d;
+		background: #eef4fb;
 	}
 
 	.quiz-success-message {
 		text-align: center;
-		padding: 40px 20px;
+		padding: 24px 8px 8px;
 	}
 
 	.quiz-success-icon {
-		width: 60px;
-		height: 60px;
-		background-color: #2ecc71;
-		color: white;
+		width: 56px;
+		height: 56px;
+		background-color: #1a365d;
+		color: #ffffff;
 		border-radius: 50%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 32px;
-		margin: 0 auto 20px;
-		font-weight: bold;
+		font-size: 28px;
+		margin: 0 auto 16px;
+		font-weight: 700;
 	}
 
 	.quiz-success-message h3 {
 		font-size: 18px;
-		color: #333;
-		margin: 0 0 12px;
+		color: #0f2942;
+		margin: 0 0 8px;
 		font-weight: 700;
 	}
 
 	.quiz-success-message p {
 		font-size: 14px;
-		color: #666;
+		color: #5a7a9a;
 		margin: 0;
 		line-height: 1.5;
 	}
 
 	@media (max-width: 768px) {
+		.quiz-fab {
+			bottom: 16px;
+			right: 16px;
+			font-size: 13px;
+			padding: 12px 18px;
+		}
+
 		.quiz-modal {
-			max-width: calc(100% - 20px);
+			max-width: calc(100% - 16px);
+		}
+
+		.quiz-header,
+		.quiz-content {
+			padding-left: 20px;
+			padding-right: 20px;
 		}
 
 		.quiz-content {
-			padding: 40px 20px 20px;
-		}
-
-		.quiz-title {
-			font-size: 20px;
-		}
-
-		.quiz-button {
-			width: 100px;
-			height: 100px;
-			bottom: 20px;
-			right: 20px;
-		}
-
-		.quiz-button-icon {
-			font-size: 28px;
-		}
-
-		.quiz-button-text {
-			font-size: 10px;
-		}
-
-		.quiz-navigation {
-			gap: 10px;
-		}
-
-		.quiz-btn {
-			padding: 10px 12px;
-			font-size: 13px;
+			padding-bottom: 20px;
 		}
 	}
 
 	@media (max-width: 480px) {
 		.quiz-modal-backdrop {
-			padding: 10px;
+			padding: 12px;
+			align-items: flex-end;
 		}
 
-		.quiz-content {
-			padding: 35px 16px 16px;
+		.quiz-modal {
+			border-radius: 16px 16px 0 0;
 		}
 
-		.quiz-title {
-			font-size: 18px;
-		}
-
-		.quiz-subtitle {
-			font-size: 12px;
-		}
-
-		.quiz-form-group {
-			margin-bottom: 18px;
-		}
-
-		.quiz-form-group label {
-			font-size: 13px;
-		}
-
-		.quiz-input {
-			padding: 10px 12px;
-			font-size: 13px;
-		}
-
-		.quiz-button {
-			width: 80px;
-			height: 80px;
-			bottom: 15px;
-			right: 15px;
-		}
-
-		.quiz-button-icon {
-			font-size: 24px;
-			margin-bottom: 2px;
-		}
-
-		.quiz-button-text {
-			font-size: 9px;
-		}
-
-		.quiz-close-btn {
-			width: 28px;
-			height: 28px;
-			font-size: 16px;
-			top: 12px;
-			right: 12px;
+		.quiz-options {
+			grid-template-columns: 1fr;
 		}
 
 		.quiz-navigation {
-			flex-direction: column;
-			gap: 8px;
+			flex-direction: column-reverse;
 		}
 
-		.quiz-btn {
-			padding: 12px 16px;
+		.quiz-fab {
+			left: 16px;
+			right: 16px;
+			max-width: none;
 		}
 	}
 </style>

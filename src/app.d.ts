@@ -10,4 +10,11 @@ declare global {
 	}
 }
 
+declare module '$env/dynamic/private' {
+	export interface PrivateEnv {
+		TELEGRAM_BOT_TOKEN: string;
+		TELEGRAM_CHAT_ID: string;
+	}
+}
+
 export {};
