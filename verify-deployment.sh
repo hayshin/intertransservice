@@ -164,22 +164,18 @@ if git rev-parse --git-dir > /dev/null 2>&1; then
         warn "Git repository has $UNCOMMITTED uncommitted changes"
     fi
     
-    UNPUSHED=$(git rev-list --count @{u}..HEAD 2>/dev/null || echo "0")
-    if [ "$UNPUSHED" -eq 0 ]; then
-        pass "All commits pushed to origin"
+    ORIGIN_URL=$(git remote get-url origin 2>/dev/null || echo "")
+    if echo "$ORIGIN_URL" | grep -q "hayshin/intertransservice"; then
+        pass "origin remote points to production (hayshin/intertransservice)"
     else
-        warn "Git has $UNPUSHED unpushed commits to origin"
+        fail "origin must point to hayshin/intertransservice (current: $ORIGIN_URL). Run: npm run setup:git"
     fi
 
-    if git remote get-url upstream >/dev/null 2>&1; then
-        AHEAD_OF_UPSTREAM=$(git rev-list --count upstream/master..HEAD 2>/dev/null || echo "0")
-        if [ "$AHEAD_OF_UPSTREAM" -eq 0 ]; then
-            pass "Production remote (upstream/master) is in sync"
-        else
-            fail "Production is $AHEAD_OF_UPSTREAM commit(s) behind. Run: git push upstream master"
-        fi
+    UNPUSHED=$(git rev-list --count @{u}..HEAD 2>/dev/null || echo "0")
+    if [ "$UNPUSHED" -eq 0 ]; then
+        pass "All commits pushed to production (origin/master)"
     else
-        warn "No upstream remote configured - cannot verify production sync"
+        fail "Production is $UNPUSHED commit(s) ahead of origin/master. Run: npm run deploy"
     fi
 else
     warn "Not a Git repository - skipping Git checks"

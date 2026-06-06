@@ -35,4 +35,49 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Deploying to production
+
+**Production site:** https://intertransservice.kz  
+**Production repository:** `hayshin/intertransservice` (GitHub Actions → GitHub Pages)
+
+### One-command deploy
+
+```sh
+npm run deploy
+```
+
+This will:
+
+1. `git add .`
+2. `git commit` (only if there are changes)
+3. `git push origin master` → triggers production deploy
+
+Optional commit message:
+
+```sh
+npm run deploy -- -Message "feat: update hero section"
+```
+
+### Git remotes (important)
+
+| Remote | Repository | Purpose |
+|--------|------------|---------|
+| `origin` | `hayshin/intertransservice` | **Production deploy only** |
+| `fork` | `b95236027-wq/intertransservice` | Optional backup (does **not** update the live site) |
+
+**Production deploy ONLY via `origin` (`hayshin/intertransservice`).**  
+Pushing only to `fork` does not update intertransservice.kz.
+
+First-time setup after clone:
+
+```sh
+npm run setup:git
+```
+
+Optional backup sync:
+
+```sh
+npm run deploy:backup
+```
+
+Track deploy status: https://github.com/hayshin/intertransservice/actions

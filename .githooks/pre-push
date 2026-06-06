@@ -1,0 +1,16 @@
+#!/bin/sh
+# Warn when pushing to fork — it does not update production.
+
+remote="$1"
+remote_url=$(git remote get-url "$remote" 2>/dev/null)
+
+case "$remote_url" in
+  *b95236027-wq/intertransservice*)
+    echo ""
+    echo "WARNING: pushing to remote '$remote' (fork) does NOT deploy intertransservice.kz."
+    echo "Use: npm run deploy   (pushes to origin / hayshin/intertransservice)"
+    echo ""
+    ;;
+esac
+
+exit 0

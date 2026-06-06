@@ -145,9 +145,7 @@ ac3c2d4 Update send_quiz.php with Telegram Bot credentials
 ```bash
 git add .
 git commit -m "chore: Final deployment verification and scripts"
-git push origin master
-git push upstream master   # production: hayshin/intertransservice → intertransservice.kz
-# or: npm run deploy
+npm run deploy   # production: origin → hayshin/intertransservice → intertransservice.kz
 ```
 
 ---
@@ -156,14 +154,14 @@ git push upstream master   # production: hayshin/intertransservice → intertran
 
 ### Option A: Automated Deployment (Recommended if available)
 
-Production uses **GitHub Actions** on `hayshin/intertransservice` (not the fork):
+Production uses **GitHub Actions** on `hayshin/intertransservice`:
 
-1. Push to `upstream master` (or run `npm run deploy`)
+1. Run `npm run deploy` (pushes to `origin master` = production)
 2. Workflow `.github/workflows/deploy.yml` builds and publishes to GitHub Pages
 3. Custom domain: https://intertransservice.kz/
 4. Track deploy: https://github.com/hayshin/intertransservice/actions
 
-Pushing only to `origin` (fork) does **not** update the live site.
+Pushing only to `fork` (backup) does **not** update the live site.
 
 ### Option B: Manual SCP Deployment (Linux/Mac/Windows Git Bash)
 
@@ -300,8 +298,7 @@ bash verify-deployment.sh
 # 4. Push any final changes
 git add .
 git commit -m "chore: Final deployment check" || true
-git push origin master || true
-git push upstream master || true
+npm run deploy || true
 
 # 5. Deploy via SCP (replace with your server details)
 scp -r build/* user@intertransservice.kz:/var/www/html/
