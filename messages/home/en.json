@@ -1,6 +1,6 @@
 {
   "home_hero_slide1_small": "RELIABLE EQUIPMENT",
-  "home_hero_slide1_large": "MOBILE CRANES 30-100 TONS",
+  "home_hero_slide1_large": "MOBILE CRANES 30-200 TONS",
   "home_hero_slide1_tagline": "Modern fleet for any task",
   "home_hero_slide2_small": "EXPERIENCED SPECIALISTS",
   "home_hero_slide2_large": "PROFESSIONAL OPERATORS",
@@ -17,7 +17,7 @@
   "home_advantage2_title": "Regular Maintenance",
   "home_advantage2_description": "Our entire crane fleet undergoes scheduled maintenance and daily technical inspections before deployment.",
   "home_advantage3_title": "Modern Fleet",
-  "home_advantage3_description": "Mobile cranes from leading global manufacturers with capacities ranging from 30 to 100 tons.",
+  "home_advantage3_description": "Mobile cranes from leading global manufacturers with capacities ranging from 30 to 200 tons.",
   "home_advantage4_title": "Compliance with Standards",
   "home_advantage4_description": "All operations are performed in accordance with Kazakhstan safety requirements and international standards.",
   "home_services_subtitle": "What We Offer",
@@ -48,5 +48,5 @@
   "home_company_title": "InterTransService",
   "home_company_description": "A dynamically developing company that has established itself as a",
   "home_company_highlight": "reliable partner in highway mobile crane rental",
-  "home_company_suffix": "with a modern fleet of equipment ranging from 30 to 100 tons capacity."
+  "home_company_suffix": "with a modern fleet of equipment ranging from 30 to 200 tons capacity."
 }

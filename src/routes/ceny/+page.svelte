@@ -22,7 +22,7 @@
 
 	const related = [
 		{ href: '/arenda-avtokrana', label: 'Аренда автокрана' },
-		{ href: '/products', label: 'Автокраны 30–100 т' },
+		{ href: '/products', label: 'Автокраны 30–200 т' },
 		{ href: '/contacts', label: 'Контакты' }
 	];
 </script>

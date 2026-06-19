@@ -22,7 +22,7 @@
 		{ href: '/arenda-avtokrana', label: 'Аренда автокрана' },
 		{ href: '/ceny', label: 'Цены на аренду' },
 		{ href: '/arenda-avtokrana-50-tonn', label: 'Аренда автокрана 50 т' },
-		{ href: '/products', label: 'Смотреть автокраны 30–100 т' }
+		{ href: '/products', label: 'Смотреть автокраны 30–200 т' }
 	];
 </script>
 
