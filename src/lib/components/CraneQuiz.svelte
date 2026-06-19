@@ -3,6 +3,7 @@
 	import { getProductsByCapacityPairs } from '$lib/utils/products';
 
 	const totalSteps = 4;
+	const whatsappPhoneNumber = '77019134104';
 
 	const tonnageOptions = getProductsByCapacityPairs()
 		.filter(function (pair) {
@@ -111,7 +112,18 @@
 		errors = { ...errors, craneBrand: '' };
 	}
 
-	async function submitForm() {
+	function buildWhatsAppMessage(): string {
+		return [
+			'Здравствуйте! Нужен расчет примерной стоимости аренды автокрана.',
+			'',
+			`Тоннаж: ${formData.tonnage}`,
+			`Бренд: ${formData.craneBrand}`,
+			`Телефон: ${formData.phone.trim()}`,
+			`Пожелания: ${formData.notes.trim() || 'не указаны'}`
+		].join('\n');
+	}
+
+	function submitForm() {
 		if (!validateStep(4)) {
 			return;
 		}
@@ -120,22 +132,18 @@
 		errors = {};
 
 		try {
-			const response = await fetch('/api/quiz', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(formData)
-			});
+			const whatsappUrl = `https://wa.me/${whatsappPhoneNumber}?text=${encodeURIComponent(
+				buildWhatsAppMessage()
+			)}`;
+			const openedWindow = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
 
-			const result = (await response.json()) as { success?: boolean };
-
-			if (response.ok && result.success) {
-				showSuccessMessage = true;
-				setTimeout(closeQuiz, 3000);
-			} else {
-				errors.submit = m.quiz_error_submit();
+			if (!openedWindow) {
+				window.location.href = whatsappUrl;
+				return;
 			}
+
+			showSuccessMessage = true;
+			setTimeout(closeQuiz, 3000);
 		} catch (error) {
 			console.error('Error:', error);
 			errors.submit = m.quiz_error_connection();

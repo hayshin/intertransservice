@@ -402,7 +402,7 @@ YOUR HOSTING ROOT
 
 - Test Telegram API directly:
   ```bash
-  curl "https://api.telegram.org/bot8950374054:AAEKrn8UryvP_INWC2a9cxlHHo2ZSeDL_Fo/sendMessage?chat_id=8562344329&text=Test"
+  curl "https://api.telegram.org/bot<TELEGRAM_BOT_TOKEN>/sendMessage?chat_id=<TELEGRAM_CHAT_ID>&text=Test"
   ```
 
 - Check server PHP error logs:
