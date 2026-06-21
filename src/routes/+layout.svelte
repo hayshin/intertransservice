@@ -20,6 +20,20 @@
 <svelte:head>
 	<link rel="icon" href={favicon} />
 	<link rel="canonical" href={canonical} />
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18218862290"></script>
+	<script>
+		if (typeof window !== 'undefined') {
+			window.dataLayer = window.dataLayer || [];
+			window.gtag =
+				window.gtag ||
+				function gtag() {
+					window.dataLayer.push(arguments);
+				};
+			window.gtag('js', new Date());
+			window.gtag('config', 'AW-18218862290');
+		}
+	</script>
 </svelte:head>
 
 <div class="flex flex-col min-h-screen">

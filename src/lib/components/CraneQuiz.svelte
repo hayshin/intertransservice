@@ -38,6 +38,12 @@
 	let errors: Record<string, string> = {};
 
 	function openQuiz() {
+		if (typeof window !== 'undefined' && window.gtag) {
+			window.gtag('event', 'conversion', {
+				send_to: 'AW-18218862290/4QTvCPni-sIcENKNt-9D'
+			});
+		}
+
 		isModalOpen = true;
 	}
 
